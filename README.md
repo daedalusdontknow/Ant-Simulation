@@ -12,6 +12,15 @@ Ant Simulation
 Informations
 </h1>
 
+IMPORTANT! At the moment this application is still under development, which means that it is not perfect yet, but if you have any questions, improvements etc. please feel free to open an issue.
+
+A little bit about the idea, unfortunately I don't know how I came up with it, I just had the idea that I wanted to make a simulation with natural selection and bang it became ants.
+
+This programme is intended to be a simulation of ants (even if the mating etc. is not very realistic) which should show the effects of natural selection.
+I am trying to achieve this by changing the environment and the characteristics of the ants at will, so that the best generation will eventually prevail.
+
+I will continue to work on this project whenever I feel like it!
+
 <h1 align="center">
 How to run it
 </h1>
