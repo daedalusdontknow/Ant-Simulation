@@ -1,0 +1,21 @@
+﻿<Window x:Class="Antsimulation.ControlPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Antsimulation"
+        mc:Ignorable="d"
+        Title="ControlPanel" Height="51" Width="132" MinWidth="200" MinHeight="100" MaxWidth="200" MaxHeight="100">
+    <Grid Height="37" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="Button_Pause" Content="⏸️" Background="#FFD4D2D2" Click="Button_pause" Grid.Column="2" Margin="541,371,-567,-355"/>
+        <Button x:Name="Button_Pause_Copy" Content="⏸️" Background="#FFD4D2D2" Click="Button_pause" Margin="10,16,148,0"/>
+        <Button x:Name="Button_Start" Content="▶️" Background="#FF30B93F" Click="Button_start" Margin="57,16,102,0"/>
+        <Button x:Name="Button_Double" Content="⏩" Background="#FFD4D2D2" Click="Button_double" Margin="102,16,0,0" HorizontalAlignment="Left" Width="41" Height="21" VerticalAlignment="Top"/>
+        <Button x:Name="Button_10o" Content="x10" Background="#FFD4D2D2" Click="Button_10" Margin="148,16,10,0"/>
+    </Grid>
+</Window>
