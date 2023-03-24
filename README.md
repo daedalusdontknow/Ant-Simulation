@@ -21,6 +21,7 @@ I am trying to achieve this by changing the environment and the characteristics 
 
 I will continue to work on this project whenever I feel like it!
 
+And please don't pass this code off as yours, even though I'm a beginner, I put a lot of time and love into this project!
 <h1 align="center">
 How to run it
 </h1>
