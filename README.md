@@ -5,7 +5,7 @@ Ant Simulation
 <h6 align="center">
   Super simple AntSimulation by daedalusdontknow (PhilippG)
   <br>
-  Using C# and WPF
+  Using C# and <a href="https://github.com/ChrisDill/Raylib-cs">RayLib-cs</a>
 </h6>
 
 <h1 align="center">
@@ -26,7 +26,7 @@ And please don't pass this code off as yours, even though I'm a beginner, I put 
 How to run it
 </h1>
 
-It´s really simple, just go to `/bin/Debug` and run the `Antsimulation.exe`! This only works for Windows i think, don´t know if and how it could run on AppleOS
+It´s really simple, just go to `/bin/Debug` and run the `Antsimulation.exe`! This only works for Windows i think, don´t know if it runs on AppleOS
 
 <h1 align="center">
 Preview
