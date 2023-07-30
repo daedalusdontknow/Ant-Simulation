@@ -32,6 +32,10 @@ It´s really simple, just go to `/bin/Debug` and run the `Antsimulation.exe`! Th
 Preview
 </h1>
 
-![image](https://user-images.githubusercontent.com/101858241/227600544-25fff790-a4e1-42aa-84cc-1930f6238bb1.png)
+![image](https://github.com/daedalusdontknow/Ant-Simulation/assets/101858241/97ecb8f2-3907-4752-b1b9-3365377eb312)
 
-![image](https://user-images.githubusercontent.com/101858241/227599505-123269d7-7af4-4a7c-8c02-a80b0c303c14.png)
+![image](https://github.com/daedalusdontknow/Ant-Simulation/assets/101858241/7ea1510e-5369-44b9-aa0a-52f4b6d49c02)
+
+![image](https://github.com/daedalusdontknow/Ant-Simulation/assets/101858241/f7f39f7e-e3ce-4145-800b-69752d08141f)
+
+![image](https://github.com/daedalusdontknow/Ant-Simulation/assets/101858241/8fae0bbe-b36f-4413-9d31-fa540003c176)
