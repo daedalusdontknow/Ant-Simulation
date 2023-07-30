@@ -5,7 +5,7 @@ using Antsimulation.Managers.UI;
 
 namespace Antsimulation.Eventlistener
 {
-    public class AntConfigWindow
+    public class AntbearConfigWindow
     {
         private WindowManager windowManager;
 
@@ -15,9 +15,9 @@ namespace Antsimulation.Eventlistener
         private Slider sightLengthSlider;
         private bool configurationApplied;
 
-        public AntConfigWindow()
+        public AntbearConfigWindow()
         {
-            windowManager = new WindowManager(800, 600, "Ant Configuration");
+            windowManager = new WindowManager(800, 600, "Antbear Configuration");
 
             // Create sliders for ant speed, strength, livelength, and sight length
             speedSlider = new Slider(100, 200, 200, 20, 0f, 100f, 50f);
@@ -34,15 +34,16 @@ namespace Antsimulation.Eventlistener
         private void OnApplyButtonClicked()
         {
             // Retrieve the ant configuration values from the sliders
-            Program.antSpeed = speedSlider.GetValueAsPercentage() + 1;
-            Program.antStrength = strengthSlider.GetValueAsPercentage() + 1 ;
-            Program.antLiveLength = liveLengthSlider.GetValueAsPercentage() + 1;
-            Program.antSightLength = sightLengthSlider.GetValueAsPercentage() + 1;
+            Program.AntbearSpeed = speedSlider.GetValueAsPercentage() + 1;
+            Program.AntbearStrength = strengthSlider.GetValueAsPercentage() + 1 ;
+            Program.AntbearLiveLength = liveLengthSlider.GetValueAsPercentage() + 1;
+            Program.AntbearSightLength = sightLengthSlider.GetValueAsPercentage() + 1;
 
             windowManager.CloseWindow();
 
-            AntbearConfigWindow ACW = new AntbearConfigWindow();
-            ACW.Run();
+            SimulationManager SM = new SimulationManager();
+
+            SM.StartSimulation();
         }
 
         public void Run()
@@ -52,22 +53,22 @@ namespace Antsimulation.Eventlistener
                 windowManager.UpdateWindow();
 
                 // Draw the title "Ant Configuration" on the window
-                windowManager.DrawText("Ant Configuration", 250, 100, 30, Color.DARKGRAY);
+                windowManager.DrawText("Antbear Configuration", 250, 100, 30, Color.DARKGRAY);
 
                 // Draw sliders for ant speed, strength, livelength, and sight length
-                windowManager.DrawText("Ant Speed", 100, 180, 20, Color.DARKGRAY);
+                windowManager.DrawText("Antbear Speed", 100, 180, 20, Color.DARKGRAY);
                 speedSlider.Update();
                 speedSlider.Draw();
 
-                windowManager.DrawText("Ant Strength", 100, 230, 20, Color.DARKGRAY);
+                windowManager.DrawText("Antbear Strength", 100, 230, 20, Color.DARKGRAY);
                 strengthSlider.Update();
                 strengthSlider.Draw();
 
-                windowManager.DrawText("Ant Live Length", 100, 280, 20, Color.DARKGRAY);
+                windowManager.DrawText("Antbear Live Length", 100, 280, 20, Color.DARKGRAY);
                 liveLengthSlider.Update();
                 liveLengthSlider.Draw();
 
-                windowManager.DrawText("Ant Sight Length", 100, 330, 20, Color.DARKGRAY);
+                windowManager.DrawText("Antbear Sight Length", 100, 330, 20, Color.DARKGRAY);
                 sightLengthSlider.Update();
                 sightLengthSlider.Draw();
             }

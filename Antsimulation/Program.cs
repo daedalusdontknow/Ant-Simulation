@@ -8,6 +8,8 @@ namespace Antsimulation.Eventlistener
 {
     public class Program
     {
+        public static int RunningFor = 0;
+
         public static float waterLevel;
         public static float foodAmount;
         public static float foodSize;
@@ -16,6 +18,11 @@ namespace Antsimulation.Eventlistener
         public static float antStrength;
         public static float antLiveLength;
         public static float antSightLength;
+
+        public static float AntbearSpeed;
+        public static float AntbearStrength;
+        public static float AntbearLiveLength;
+        public static float AntbearSightLength;
 
         static void Main(string[] args)
         {

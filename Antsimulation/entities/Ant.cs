@@ -11,8 +11,8 @@ namespace Antsimulation.entities
 {
     public class Ant
     {
-        private float x { get; set; }
-        private float y { get; set; }
+        public float x { get; set; }
+        public float y { get; set; }
         private int health { get; set; }
         private double nutrition { get; set; }
         private float strength { get; set; }
@@ -94,156 +94,221 @@ namespace Antsimulation.entities
                 float y = ant.y;
                 wm.DrawCircle(x, y, 2, Color.BLACK);
 
-                if (ant.nutrition >= 7)
+                //check if a Antbear is near the ant, if so the ant should run
+                float ABDistance = 0;
+                Antbear NearestAntbear = null;
+
+                foreach (var antbear in Antbear.Antbears)
                 {
-                    //reproducing code, two ants within a distance of 2 can get a child with one of their trades and two random
-                    //the child gets the average of the parents trades
-                    float ADistance = 0;
-                    Ant NearestAnt = null;
+                    float dx = antbear.x - ant.x;
+                    float dy = antbear.y - ant.y;
+                    float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
-                    foreach (var antSearch in ants)
+                    if (distance < ABDistance || ABDistance == 0)
                     {
-                        float dx = antSearch.x - ant.x;
-                        float dy = antSearch.y - ant.y;
-                        float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+                        ABDistance = distance;
+                        NearestAntbear = antbear;
+                    }
+                }
 
-                        if (distance < ADistance || ADistance == 0)
+                if (NearestAntbear != null && (float)Math.Sqrt(NearestAntbear.x * NearestAntbear.x + NearestAntbear.y * NearestAntbear.y) < 15)
+                {
+                    //run in the opposite direction of the antbear
+                    float dx = NearestAntbear.x - ant.x;
+                    float dy = NearestAntbear.y - ant.y;
+                    float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                    float xMove = dx / distance;
+                    float yMove = dy / distance;
+
+                    ant.x -= xMove * ant.speed*2;
+                    ant.y -= yMove * ant.speed*2;
+                    ant.nutrition -= perstep * ant.speed;
+                }
+                else
+                {
+
+                    if (ant.nutrition >= 7)
+                    {
+                        //reproducing code, two ants within a distance of 2 can get a child with one of their trades and two random
+                        //the child gets the average of the parents trades
+                        float ADistance = 0;
+                        Ant NearestAnt = null;
+
+                        foreach (var antSearch in ants)
                         {
-                            ADistance = distance;
-                            NearestAnt = antSearch;
+                            float dx = antSearch.x - ant.x;
+                            float dy = antSearch.y - ant.y;
+                            float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                            if (distance < ADistance || ADistance == 0)
+                            {
+                                ADistance = distance;
+                                NearestAnt = antSearch;
+                            }
+                        }
+
+                        if (NearestAnt != null)
+                        {
+                            float dx = NearestAnt.x - ant.x;
+                            float dy = NearestAnt.y - ant.y;
+                            float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                            if (distance < 2)
+                            {
+                                //the trades of the new ant are in range of the parents, but some are completly random
+                                Random random = new Random();
+
+                                float speed = 0;
+                                float strength = 0;
+                                float sight = 0;
+
+                                //get the highest ant.gen
+                                int gen = 0;
+                                if (ant.gen > NearestAnt.gen)
+                                {
+                                    gen = ant.gen;
+                                }
+                                else
+                                {
+                                    gen = NearestAnt.gen;
+                                }
+
+                                switch (random.Next(0, 2))
+                                {
+                                    case 0:
+                                        switch (random.Next(0, 4))
+                                        {
+                                            case 0:
+                                                speed = ant.speed;
+                                                break;
+                                            case 1:
+                                                strength = ant.strength;
+                                                break;
+                                            case 2:
+                                                sight = ant.sight;
+                                                break;
+                                        }
+
+                                        break;
+
+                                    case 1:
+                                        switch (random.Next(0, 4))
+                                        {
+                                            case 0:
+                                                speed = NearestAnt.speed;
+                                                break;
+                                            case 1:
+                                                strength = NearestAnt.strength;
+                                                break;
+                                            case 2:
+                                                sight = NearestAnt.sight;
+                                                break;
+                                        }
+
+                                        break;
+                                }
+
+                                //one of the trade is set, the other two should be random
+                                if (speed == 0)
+                                {
+                                    speed = random.Next(1, 4);
+                                }
+
+                                if (strength == 0)
+                                {
+                                    strength = random.Next(1, 4);
+                                }
+
+                                if (sight == 0)
+                                {
+                                    sight = random.Next(1, 100) * 10;
+                                }
+
+                                CreateAntWithStat(ant.x, ant.y, speed, strength, sight, gen + 1);
+                                ant.nutrition -= 2;
+                                NearestAnt.nutrition -= 2;
+                            }
+                            //move towards partner
+                            else
+                            {
+                                float dx2 = NearestAnt.x - ant.x;
+                                float dy2 = NearestAnt.y - ant.y;
+                                float distance2 = (float)Math.Sqrt(dx2 * dx2 + dy2 * dy2);
+
+                                float speed = ant.speed;
+
+                                float angle = (float)Math.Atan2(dy2, dx2);
+
+                                float vx = (float)Math.Cos(angle) * speed;
+                                float vy = (float)Math.Sin(angle) * speed;
+
+                                if (distance2 <= ant.sight)
+                                {
+                                    ant.x += vx;
+                                    ant.y += vy;
+                                    ant.nutrition -= perstep * ant.speed;
+                                }
+                            }
                         }
                     }
-
-                    if (NearestAnt != null)
+                    else if (ant.nutrition < 11)
                     {
-                        float dx = NearestAnt.x - ant.x;
-                        float dy = NearestAnt.y - ant.y;
-                        float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+                        float FDisctance = 0;
+                        Food NearestFood = null;
 
-                        if (distance < 2)
+                        foreach (var food in Food.Foods)
                         {
-                            //the trades of the new ant are in range of the parents, but some are completly random
-                            Random random = new Random();
+                            float dx = food.x - ant.x;
+                            float dy = food.y - ant.y;
+                            float distance = (float)Math.Sqrt(dx * dx + dy * dy);
 
-                            float speed = 0;
-                            float strength = 0;
-                            float sight = 0;
-
-                            //get the highest ant.gen
-                            int gen = 0;
-                            if (ant.gen > NearestAnt.gen)
+                            if (distance < FDisctance || FDisctance == 0 && distance <= ant.sight)
                             {
-                                gen = ant.gen;
+                                FDisctance = distance;
+                                NearestFood = food;
+                            }
+
+                        }
+
+                        if (NearestFood != null)
+                        {
+                            float dx = NearestFood.x - ant.x;
+                            float dy = NearestFood.y - ant.y;
+                            float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                            if (distance < 2)
+                            {
+                                if (ant.strength <= NearestFood.size)
+                                {
+                                    NearestFood.size = -ant.strength;
+                                    ant.nutrition += ant.strength;
+                                }
+                                else if (ant.strength > NearestFood.size)
+                                {
+                                    ant.nutrition += NearestFood.size;
+                                    NearestFood.size = 0;
+                                }
                             }
                             else
                             {
-                                gen = NearestAnt.gen;
-                            }
+                                float angle = (float)Math.Atan2(dy, dx);
+                                float vx = (float)Math.Cos(angle) * ant.speed;
+                                float vy = (float)Math.Sin(angle) * ant.speed;
 
-                            switch (random.Next(0, 2))
-                            {
-                                case 0:
-                                    switch (random.Next(0, 4))
-                                    {
-                                        case 0: speed = ant.speed; break;
-                                        case 1: strength = ant.strength; break;
-                                        case 2: sight = ant.sight; break;
-                                    }
-                                    break;
-
-                                case 1:
-                                    switch (random.Next(0, 4))
-                                    {
-                                        case 0: speed = NearestAnt.speed; break;
-                                        case 1: strength = NearestAnt.strength; break;
-                                        case 2: sight = NearestAnt.sight; break;
-                                    }
-                                    break;
-                            }
-
-                            //one of the trade is set, the other two should be random
-                            if (speed == 0)
-                            {
-                                speed = random.Next(1, 4);
-                            }
-
-                            if (strength == 0)
-                            {
-                                strength = random.Next(1, 4);
-                            }
-
-                            if (sight == 0)
-                            {
-                                sight = random.Next(1, 100) * 10;
-                            }
-
-                            CreateAntWithStat(ant.x, ant.y, speed, strength, sight, gen + 1);
-                            ant.nutrition -= 2;
-                            NearestAnt.nutrition -= 2;
-                        }
-                        //move towards partner
-                        else
-                        {
-                            float dx2 = NearestAnt.x - ant.x;
-                            float dy2 = NearestAnt.y - ant.y;
-                            float distance2 = (float)Math.Sqrt(dx2 * dx2 + dy2 * dy2);
-
-                            float speed = ant.speed;
-
-                            float angle = (float)Math.Atan2(dy2, dx2);
-
-                            float vx = (float)Math.Cos(angle) * speed;
-                            float vy = (float)Math.Sin(angle) * speed;
-
-                            if (distance2 <= ant.sight)
-                            {
                                 ant.x += vx;
                                 ant.y += vy;
                                 ant.nutrition -= perstep * ant.speed;
                             }
-                        }   
-                    }   
-                }
-                else if (ant.nutrition < 11)
-                {
-                    float FDisctance = 0;
-                    Food NearestFood = null;
 
-                    foreach (var food in Food.Foods)
-                    {
-                        float dx = food.x - ant.x;
-                        float dy = food.y - ant.y;
-                        float distance = (float)Math.Sqrt(dx * dx + dy * dy);
-
-                        if (distance < FDisctance || FDisctance == 0 && distance <= ant.sight)
-                        {
-                            FDisctance = distance;
-                            NearestFood = food;
-                        }
-
-                    }
-
-                    if (NearestFood != null)
-                    {
-                        float dx = NearestFood.x - ant.x;
-                        float dy = NearestFood.y - ant.y;
-                        float distance = (float)Math.Sqrt(dx * dx + dy * dy);
-
-                        if (distance < 2)
-                        {
-                            if (ant.strength <= NearestFood.size)
-                            {
-                                NearestFood.size =- ant.strength;
-                                ant.nutrition += ant.strength;
-                            } else if (ant.strength > NearestFood.size)
-                            {
-                                ant.nutrition += NearestFood.size;
-                                NearestFood.size = 0;
-                            }
+                            Food.RemoveNull();
                         }
                         else
                         {
-                            float angle = (float)Math.Atan2(dy, dx);
+                            //move in a random direction
+                            Random random = new Random();
+
+                            float angle = random.Next(0, 360);
                             float vx = (float)Math.Cos(angle) * ant.speed;
                             float vy = (float)Math.Sin(angle) * ant.speed;
 
@@ -251,7 +316,6 @@ namespace Antsimulation.entities
                             ant.y += vy;
                             ant.nutrition -= perstep * ant.speed;
                         }
-                        Food.RemoveNull();
                     }
                     else
                     {
@@ -266,19 +330,6 @@ namespace Antsimulation.entities
                         ant.y += vy;
                         ant.nutrition -= perstep * ant.speed;
                     }
-                }
-                else
-                {
-                    //move in a random direction
-                    Random random = new Random();
-
-                    float angle = random.Next(0, 360);
-                    float vx = (float)Math.Cos(angle) * ant.speed;
-                    float vy = (float)Math.Sin(angle) * ant.speed;
-
-                    ant.x += vx;
-                    ant.y += vy;
-                    ant.nutrition -= perstep * ant.speed;
                 }
 
                 if (ant.nutrition <= 0)
