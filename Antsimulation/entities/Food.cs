@@ -23,20 +23,36 @@ namespace Antsimulation.entities
             this.size = size;
         }
 
+        static int foodSpawn = 0;
+
         public static void SpawnFood(WindowManager WM)
         {
-            int foodAmount = (int)Program.foodAmount;
-            float foodsize = Program.foodSize;
-
-            Random random = new Random();
-
-            for (int i = 0; i < foodAmount/10; i++)
+            if (foodSpawn == 0)
             {
-                float xpos = random.Next(0, 600);
-                float ypos = random.Next(0, 800);
+                int foodAmount = (int)Program.foodAmount;
+                float foodsize = Program.foodSize;
 
-                Food food = new Food(xpos, ypos, foodsize);
-                Foods.Add(food);
+                Random random = new Random();
+
+                for (int i = 0; i < foodAmount / 10; i++)
+                {
+                    float xpos = random.Next(0, 600);
+                    float ypos = random.Next(0, 800);
+
+                    Food food = new Food(xpos, ypos, foodsize);
+                    Foods.Add(food);
+                }
+
+                foodSpawn = 50;
+            }
+            else
+            {
+                foodSpawn--;
+            }
+
+            foreach (var food in Food.Foods)
+            {
+                WM.DrawCircle(food.x, food.y, 2, Color.GREEN);
             }
         }
 

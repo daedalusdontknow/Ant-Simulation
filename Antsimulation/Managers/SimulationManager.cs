@@ -29,6 +29,7 @@ namespace Antsimulation.Managers
         public static int delay = 100;
         public static bool isPaused = false;
         public static bool endSim = false;
+        public static int GoToRestart = 0;
 
         public static object OnStopButtomClicked { get; internal set; }
 
@@ -39,14 +40,29 @@ namespace Antsimulation.Managers
             int TimeCounter = 0;
             while (true)
             {
-                if (Ant.ants.Count == 0 && Antbear.Antbears.Count == 0 || endSim)
+                if (endSim)
                 {
                     SW.CloseWindow();
-                    DiedWindow DW = new DiedWindow();
-                    DW.Run();
+                    Ant.ants.Clear();
+                    Antbear.Antbears.Clear();
+                    Food.Foods.Clear();
+
+                    switch (GoToRestart)
+                    {
+                        case 1:
+                            ConfigurationWindow CW = new ConfigurationWindow();
+                            CW.Run();
+                            break;
+                        case 2:
+                            StartSimulation();
+                            break;
+                    }
+
+                    Program.RunningFor = 0;
+                    SimulationManager.OnTimeControlButtonClicked(100);
+                    GoToRestart = 0;
                     break;
                 }
-
                 SW.Run();
                 int tmpDelay = 0;
                 while (!(tmpDelay >= delay))
@@ -85,6 +101,13 @@ namespace Antsimulation.Managers
 
         public static void OnStopButtonClicked()
         {
+            GoToRestart = 1;
+            endSim = true;
+        }
+
+        public static void OnRestartButtonClicked()
+        {
+            GoToRestart = 2;
             endSim = true;
         }
     }

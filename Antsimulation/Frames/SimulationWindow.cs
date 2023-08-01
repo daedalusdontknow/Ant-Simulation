@@ -18,9 +18,28 @@ namespace Antsimulation.Managers.UI
             windowManager.AddButton(new Button(720, 190, 100, 30, "10x", () => SimulationManager.OnTimeControlButtonClicked(10)));
             windowManager.AddButton(new Button(720, 230, 100, 30, "100x", () => SimulationManager.OnTimeControlButtonClicked(1)));
             windowManager.AddButton(new Button(1100, 670, 100, 30, "Stop", () => SimulationManager.OnStopButtonClicked()));
-        }
+            windowManager.AddButton(new Button(990, 670, 100, 30, "Restart", () => SimulationManager.OnRestartButtonClicked()));
 
-        private int FoodSpawnRate = 50;
+            windowManager.AddButton(new Button(720, 320, 120, 30, "Ant", () => Ant.CreateAnt(0)));
+            //spawn ant x10 
+            windowManager.AddButton(new Button(720, 360, 120, 30, "Ant x10", () =>
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Ant.CreateAnt(0);
+                }
+            }));
+
+            windowManager.AddButton(new Button(720, 400, 120, 30, "Antbear", () => Antbear.CreateAntbear(0)));
+            //spawn antbear x10
+            windowManager.AddButton(new Button(720, 440, 120, 30, "Antbear x10", () =>
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Antbear.CreateAntbear(0);
+                }
+            }));
+        }
 
         public void Run()
         {
@@ -30,13 +49,7 @@ namespace Antsimulation.Managers.UI
             {
                 Ant.Behaviour(windowManager);
                 Antbear.Behaviour(windowManager);
-            }
-
-            if (FoodSpawnRate <= 0)
-            {
                 Food.SpawnFood(windowManager);
-                FoodSpawnRate = 50;
-                FoodSpawnRate--;
             }
 
             int running = Program.RunningFor;

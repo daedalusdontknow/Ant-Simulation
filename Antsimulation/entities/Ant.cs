@@ -38,7 +38,7 @@ namespace Antsimulation.entities
             this.duration = duration;
         }
 
-        private static float perstep = 0.0005f;
+        private static float perstep = 0.0002f;
 
         public static void CreateAnt(int gen)
         {
@@ -83,11 +83,6 @@ namespace Antsimulation.entities
 
         public static void Behaviour(WindowManager wm)
         {
-            foreach (var food in Food.Foods)
-            {
-                wm.DrawCircle(food.x, food.y, 2, Color.GREEN);
-            }
-
             foreach (var ant in ants)
             {
                 float x = ant.x;
