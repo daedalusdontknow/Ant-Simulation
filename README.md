@@ -39,3 +39,5 @@ Preview
 ![image](https://github.com/daedalusdontknow/Ant-Simulation/assets/101858241/f7f39f7e-e3ce-4145-800b-69752d08141f)
 
 ![image](https://github.com/daedalusdontknow/Ant-Simulation/assets/101858241/8fae0bbe-b36f-4413-9d31-fa540003c176)
+
+![image](https://github.com/daedalusdontknow/Ant-Simulation/assets/101858241/0bcc987d-9bb4-4b39-898d-fb400aa25b4b)
