@@ -90,7 +90,7 @@ namespace Antsimulation.entities
                 float y = Antbear.y;
                 wm.DrawCircle(x, y, 6, Color.RED);
 
-                if (Antbear.nutrition >= 7)
+                if (Antbear.nutrition >= 7 && Antbears.Count > 1)
                 {
                     //reproducing code, two Antbears within a distance of 2 can get a child with one of their trades and two random
                     //the child gets the average of the parents trades
@@ -106,7 +106,7 @@ namespace Antsimulation.entities
                         if (distance < ADistance || ADistance == 0)
                         {
                             ADistance = distance;
-                            NearestAntbear = AntbearSearch;
+                            if (AntbearSearch != Antbear) NearestAntbear = AntbearSearch;
                         }
                     }
 
@@ -269,12 +269,20 @@ namespace Antsimulation.entities
                     Antbear.nutrition -= perstep * Antbear.speed;
                 }
 
+                //duration is like the age
+                Antbear.duration -= 1;
+
                 if (Antbear.nutrition <= 0)
                 {
                     Antbear.health--;
                 }
 
                 if (Antbear.health <= 0)
+                {
+                    RemoveAntbears.Add(Antbear);
+                }
+
+                if (Antbear.duration <= 0)
                 {
                     RemoveAntbears.Add(Antbear);
                 }
@@ -321,6 +329,11 @@ namespace Antsimulation.entities
         public static float GetAverageHealth()
         {
             return (float)Antbears.Average(Antbear => Antbear.health);
+        }
+
+        public static float GetAverageDuration()
+        {
+            return (float)Antbears.Average(Antbear => Antbear.duration);
         }
     }
 }

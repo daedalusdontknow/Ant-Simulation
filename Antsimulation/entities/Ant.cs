@@ -123,7 +123,7 @@ namespace Antsimulation.entities
                 else
                 {
 
-                    if (ant.nutrition >= 7)
+                    if (ant.nutrition >= 7 && ants.Count > 1)
                     {
                         //reproducing code, two ants within a distance of 2 can get a child with one of their trades and two random
                         //the child gets the average of the parents trades
@@ -139,7 +139,7 @@ namespace Antsimulation.entities
                             if (distance < ADistance || ADistance == 0)
                             {
                                 ADistance = distance;
-                                NearestAnt = antSearch;
+                                if (NearestAnt != ant) NearestAnt = antSearch;
                             }
                         }
 
