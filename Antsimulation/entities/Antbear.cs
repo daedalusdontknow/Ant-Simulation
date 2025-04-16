@@ -40,12 +40,12 @@ namespace Antsimulation.entities
             this.duration = duration;
         }
 
-        private static float perstep = 0.01f;
+        private static float perstep = 0.02f;
 
         public static void CreateAntbear(int gen)
         {
             Random random = new Random();
-            int health = 5;
+            int health = 15;
 
             float xpos = random.Next(0, 600);
             float ypos = random.Next(0, 800);
@@ -90,7 +90,7 @@ namespace Antsimulation.entities
                 float y = Antbear.y;
                 wm.DrawCircle(x, y, 6, Color.RED);
 
-                if (Antbear.nutrition >= 7 && Antbears.Count > 1)
+                if (Antbear.nutrition >= 11 && Antbears.Count > 1)
                 {
                     //reproducing code, two Antbears within a distance of 2 can get a child with one of their trades and two random
                     //the child gets the average of the parents trades
@@ -174,8 +174,8 @@ namespace Antsimulation.entities
                             }
 
                             CreateAntbearWithStat(Antbear.x, Antbear.y, speed, strength, sight, gen + 1);
-                            Antbear.nutrition -= 2;
-                            NearestAntbear.nutrition -= 2;
+                            Antbear.nutrition -= 2.3;
+                            NearestAntbear.nutrition -= 2.3;
                         }
                         //move towards partner
                         else
@@ -200,7 +200,7 @@ namespace Antsimulation.entities
                         }
                     }
                 }
-                else if (Antbear.nutrition < 11)
+                else if (Antbear.nutrition < 26)
                 {
                     float FDisctance = 0;
                     Ant NearestFood = null;
@@ -226,7 +226,7 @@ namespace Antsimulation.entities
 
                         if (distance < 2)
                         {
-                            Antbear.nutrition += 1;
+                            Antbear.nutrition += Ant.getHealth(NearestFood) * 0.75;
                             Ant.RemoveAnts.Add(NearestFood);
                         }
                         else

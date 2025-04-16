@@ -123,7 +123,7 @@ namespace Antsimulation.entities
                 else
                 {
 
-                    if (ant.nutrition >= 7 && ants.Count > 1)
+                    if (ant.nutrition >= 5.4 && ants.Count > 1)
                     {
                         //reproducing code, two ants within a distance of 2 can get a child with one of their trades and two random
                         //the child gets the average of the parents trades
@@ -221,8 +221,8 @@ namespace Antsimulation.entities
                                 }
 
                                 CreateAntWithStat(ant.x, ant.y, speed, strength, sight, gen + 1);
-                                ant.nutrition -= 2;
-                                NearestAnt.nutrition -= 2;
+                                ant.nutrition -= 0.4;
+                                NearestAnt.nutrition -= 0.4;
                             }
                             //move towards partner
                             else
@@ -379,6 +379,11 @@ namespace Antsimulation.entities
         public static float GetAverageHealth()
         {
             return (float)ants.Average(ant => ant.health);
+        }
+
+        public static float getHealth(Ant ant)
+        {
+            return ant.health;
         }
     }
 }

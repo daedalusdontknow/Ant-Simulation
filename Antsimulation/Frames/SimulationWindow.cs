@@ -1,8 +1,10 @@
 ﻿using Antsimulation.entities;
 using Antsimulation.Eventlistener;
+using Antsimulation.Managers;
+using Antsimulation.Managers.UI;
 using Raylib_cs;
 
-namespace Antsimulation.Managers.UI
+namespace Antsimulation.Frames
 {
     public class SimulationWindow
     {
@@ -96,6 +98,9 @@ namespace Antsimulation.Managers.UI
 
             windowManager.DrawText("Stats Antbear", 900, 280, 40, Color.BLACK);
 
+            //add antbear stats
+            if ((Program.antStats.Count == 0 || Program.antStats.Count > 0) && Program.antStats.Count - 1 != Program.RunningFor) Program.antStats.Add(new DataEntry(antCount, aNutrition, aSpeed, aStrength, aSight, highestGen, aHealth, Program.RunningFor));
+
 
             int antbearCount = 0;
             float abSpeed = 0;
@@ -123,6 +128,8 @@ namespace Antsimulation.Managers.UI
             windowManager.DrawText($"Sight:{abSight}", 900, 440, 30, Color.BLACK);
             windowManager.DrawText($"Gen:{abhighestGen}", 900, 470, 30, Color.BLACK);
             windowManager.DrawText($"Health:{abHealth}", 900, 500, 30, Color.BLACK);
+            //add antbear stats
+            if ((Program.antbearStats.Count == 0 || Program.antbearStats.Count > 0) && Program.antbearStats.Count - 1 != Program.RunningFor) Program.antbearStats.Add(new DataEntry(antbearCount, abNutrition, abSpeed, abStrength, abSight, abhighestGen, abHealth, Program.RunningFor));
         }
 
         public void CloseWindow()

@@ -1,9 +1,10 @@
 ﻿using System;
+using Antsimulation.Eventlistener;
 using Raylib_cs;
 using Antsimulation.Managers.UI;
 using Antsimulation.Managers;
 
-namespace Antsimulation.Eventlistener
+namespace Antsimulation.Frames
 {
     public class ConfigurationWindow
     {
